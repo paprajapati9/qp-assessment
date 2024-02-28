@@ -7,7 +7,7 @@ import { SubOrderRepository } from '../repositories/suborder.repository';
 @Injectable()
 export class SubOrderService {
   constructor(
-    @InjectRepository(SubOrder)
+    @InjectRepository(SubOrderRepository)
     private subOrderRepository: SubOrderRepository,
   ) {}
 

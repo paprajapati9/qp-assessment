@@ -1,7 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { SubOrder } from './suborder.model';
 
-@Entity()
+@Entity('order')
 export class Order {
   @PrimaryGeneratedColumn()
   id: number;

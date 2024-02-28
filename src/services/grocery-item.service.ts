@@ -6,8 +6,7 @@ import { GroceryItemRepository } from '../repositories/grocery-item.repository';
 @Injectable()
 export class GroceryItemService {
   constructor(
-    @InjectRepository(GroceryItem)
-    private groceryItemRepository: GroceryItemRepository,
+    @InjectRepository(GroceryItemRepository) private groceryItemRepository: GroceryItemRepository,
   ) {}
 
   async create(
