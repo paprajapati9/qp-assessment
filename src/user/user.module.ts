@@ -3,19 +3,20 @@ import { UserController } from './user.controller';
 import { GroceryItemService } from '../services/grocery-item.service';
 import { OrderService } from '../services/order.service';
 import { SubOrderService } from '../services/suborder.service';
-import { GroceryItemRepository } from 'src/repositories/grocery-item.repository';
-import { OrderRepository } from 'src/repositories/order.repository';
-import { SubOrderRepository } from 'src/repositories/suborder.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { GroceryItem } from '../models/grocery-item.entity';
+import { Order } from '../models/order.entity';
+import { SubOrder } from '../models/suborder.entity';
 
 @Module({
   controllers: [UserController],
   providers: [
-    GroceryItemRepository,
-    OrderRepository,
-    SubOrderRepository,
     GroceryItemService,
     OrderService,
     SubOrderService
+  ],
+  imports: [
+    TypeOrmModule.forFeature([GroceryItem, Order, SubOrder])
   ]
 })
 export class UserModule {}

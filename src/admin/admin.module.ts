@@ -1,10 +1,14 @@
 import { Module } from '@nestjs/common';
 import { AdminController } from './admin.controller';
 import { GroceryItemService } from '../services/grocery-item.service';
-import { GroceryItemRepository } from '../repositories/grocery-item.repository';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { GroceryItem } from '../models/grocery-item.entity';
 
 @Module({
   controllers: [AdminController],
-  providers: [GroceryItemRepository, GroceryItemService]
+  providers: [GroceryItemService],
+  imports: [
+    TypeOrmModule.forFeature([GroceryItem])
+  ]
 })
 export class AdminModule {}

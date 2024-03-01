@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { GroceryItem } from '../models/grocery-item.model';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { GroceryItem } from '../models/grocery-item.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GroceryItemRepository } from '../repositories/grocery-item.repository';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class GroceryItemService {
   constructor(
-    @InjectRepository(GroceryItemRepository) private groceryItemRepository: GroceryItemRepository,
+    @InjectRepository(GroceryItem) private groceryItemRepository: Repository<GroceryItem>,
   ) {}
 
   async create(
@@ -22,8 +22,16 @@ export class GroceryItemService {
     updateData: Partial<GroceryItem>
   ): Promise<GroceryItem> {
     await this.groceryItemRepository.update(id, updateData);
-    const item =  this.groceryItemRepository.findOne(id)
+    const item =  this.groceryItemRepository.findOne({ where: { id } })
     return item;
+  }
+
+  async reduceInventory(id: any, quantity: number) {
+    const item =  await this.groceryItemRepository.findOne({ where: { id } })
+    // Reduce inventory
+    item.inventory -= quantity;
+    if (item.inventory < 0) throw Error('Low Inventory');
+    await this.groceryItemRepository.update(id, item);
   }
 
   async findAll(): Promise<GroceryItem[]> {
